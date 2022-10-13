@@ -1,0 +1,76 @@
+<p>Users</p>
+
+<button mat-raised-button (click)="openUserFormDialog('100ms', '10ms', createUser)">+ Add</button>
+<br/><br/>
+<div *ngIf="!loader && users && users.length">
+    <table mat-table matSort  [dataSource]="userDataSource"  class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobileno">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> Mobile No </th>
+            <td mat-cell *matCellDef="let element"> {{element.mobileno}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> Created On </th>
+            <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MM-dd-yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th  class="header type-column" mat-header-cell *matHeaderCellDef> # </th>
+            <td mat-cell *matCellDef="let element"> </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<ng-template #createUser>
+    <h1 mat-dialog-title>User</h1>
+    <div mat-dialog-content>
+        <div class="form-container">
+            <form class="user-form w-100" [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+                <mat-form-field class="col-sm-12">
+                    <input matInput formControlName="name" placeholder="Name">
+                    <mat-error *ngIf="userForm.get('name').hasError('required')">
+                        Name is Required!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12">
+                    <input matInput formControlName="email" placeholder="email">
+                    <mat-error *ngIf="userForm.get('email').hasError('required')">
+                        Email is Required!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12">
+                    <input matInput formControlName="mobileno" placeholder="Mobile Number">
+                    <mat-error *ngIf="userForm.get('mobileno').hasError('required')">
+                        mobile number is Required!
+                    </mat-error>
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+    <div mat-dialog-actions class="row">
+        <button mat-raised-button color="primary">
+            <span>Save</span>
+        </button>
+    </div>
+
+
+
+</ng-template>

@@ -1,0 +1,86 @@
+<mat-card-header>
+    <mat-card-title>Expenses</mat-card-title>
+    <!-- <mat-card-subtitle>All Expenses</mat-card-subtitle> -->
+</mat-card-header>
+
+<mat-card-content>
+    <div class="row">
+        <div class="col-sm-12 d-flex justify-content-space-between gap-5">
+            <div class="form-group has-search w-100">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <div>
+                <button mat-raised-button color="primary" (click)="openTransactionModal(createUser, {})">Add
+                    Transaction</button>
+            </div>
+        </div>
+    </div>
+</mat-card-content>
+
+
+<ng-template #createUser>
+    <h1 mat-dialog-title>Expense</h1>
+    <div mat-dialog-content>
+        <div class="form-container">
+            <form class="user-form w-100" [formGroup]="eForm" (ngSubmit)="onSubmit()" novalidate>
+                <mat-form-field class="col-sm-12">
+                    <input matInput formControlName="description" placeholder="Enter Expense detail">
+                    <mat-error *ngIf="eForm.get('description').hasError('required')">
+                        Description is Required!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12">
+                    <input matInput formControlName="amount" placeholder="0.00" type="number">
+                    <mat-error *ngIf="eForm.get('amount').hasError('required')">
+                        Amount is Required!
+                    </mat-error>
+                </mat-form-field>
+
+             
+
+                <mat-form-field class="col-sm-12" appearance="fill">
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type" name="type">
+                        <mat-option *ngFor="let food of types" [value]="food">
+                            {{food}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12" appearance="fill">
+                    <mat-label>Paid By</mat-label>
+                    <mat-select formControlName="paidBy" name="paidBy" (selectionChange)="payerChange($event)">
+                        <mat-option *ngFor="let user of users" [value]="user.id">
+                            {{user.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-12" appearance="fill">
+                    <mat-label>Users</mat-label>
+                    <mat-select formControlName="users" name="paidBy" multiple>
+
+                        <ng-container *ngFor="let user of users">
+                            <mat-option *ngIf="user.id !== eForm.get('paidBy').value" [value]="user.id">
+                                {{user.name}}
+
+                            </mat-option>
+                        </ng-container>
+
+                    </mat-select>
+                </mat-form-field>
+
+            </form>
+        </div>
+    </div>
+    <div mat-dialog-actions class="row">
+        <button mat-raised-button color="primary">
+            <span>Save</span>
+        </button>
+    </div>
+
+
+
+</ng-template>
